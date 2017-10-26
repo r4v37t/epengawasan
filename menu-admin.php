@@ -31,15 +31,7 @@
 
 				<b class="arrow"></b>
 				<ul class="submenu">
-					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-bidang')&&isset($_GET['aksi']))?'active':''; ?>">
-						<a href="?page=ref-bidang&aksi=tambah">
-							<i class="menu-icon fa fa-plus purple"></i>
-							Tambah
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-bidang')&&!isset($_GET['aksi']))?'active':''; ?>">
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-bidang'))?'active':''; ?>">
 						<a href="?page=ref-bidang">
 							<i class="menu-icon fa fa-eye pink"></i>
 							Lihat

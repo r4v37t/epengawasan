@@ -15,8 +15,10 @@ if(isset($_POST['id'])){
 	}
 	?><script>location.href='index.php';</script><?php
 }
-if($_SESSION['login']){
-	?><script>location.href='main.php';</script><?php
+if(isset($_SESSION['login'])){
+	if($_SESSION['login']){
+		?><script>location.href='main.php';</script><?php
+	}
 }
 ?>
 <!DOCTYPE html>
