@@ -1,106 +1,72 @@
 <?php
-//sub bidang
-if(isset($_POST['add-bidang'])){
+//kecamatan
+if(isset($_POST['add-kecamatan'])){
 	$nama=$_POST['nama'];
-	$q=mysql_query("insert into ref_bidang values(null,'$nama')");
+	$q=mysql_query("insert into ref_kecamatan values(null,'$nama')");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
 		?><script>alert("Gagal!");</script><?php
 	}
-	?><script>location.href='?page=ref-bidang';</script><?php
+	?><script>location.href='?page=ref-desa';</script><?php
 }
-if(isset($_POST['edit-bidang'])){
+if(isset($_POST['edit-kecamatan'])){
 	$id=$_POST['id'];
 	$nama=$_POST['nama'];
-	$q=mysql_query("update ref_bidang set nmbidang='$nama' where idbidang=$id");
+	$q=mysql_query("update ref_kecamatan set nmkecamatan='$nama' where idkecamatan=$id");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
 		?><script>alert("Gagal!");</script><?php
 	}
-	?><script>location.href='?page=ref-bidang';</script><?php
+	?><script>location.href='?page=ref-desa';</script><?php
 }
-if(isset($_GET['del-bidang'])){
+if(isset($_GET['del-kecamatan'])){
 	$id=$_GET['id'];
-	$q=mysql_query("delete from ref_bidang where idbidang=$id");
+	$q=mysql_query("delete from ref_kecamatan where idkecamatan=$id");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
 		?><script>alert("Gagal!");</script><?php
 	}
-	?><script>location.href='?page=ref-bidang';</script><?php
+	?><script>location.href='?page=ref-desa';</script><?php
 }
 
-//program
-if(isset($_POST['add-program'])){
-	$idbidang=$_POST['bidang'];
+//desa
+if(isset($_POST['add-desa'])){
+	$idkecamatan=$_POST['kecamatan'];
 	$nama=$_POST['nama'];
-	$q=mysql_query("insert into ref_program values(null,$idbidang,'$nama')");
+	$q=mysql_query("insert into ref_desa values(null,$idkecamatan,'$nama')");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
 		?><script>alert("Gagal!");</script><?php
 	}
-	?><script>location.href='?page=ref-bidang';</script><?php
+	?><script>location.href='?page=ref-desa';</script><?php
 }
-if(isset($_POST['edit-program'])){
+if(isset($_POST['edit-desa'])){
 	$id=$_POST['id'];
-	$idbidang=$_POST['bidang'];
+	$idkecamatan=$_POST['kecamatan'];
 	$nama=$_POST['nama'];
-	$q=mysql_query("update ref_program set nmprogram='$nama',idbidang=$idbidang where idprogram=$id");
+	$q=mysql_query("update ref_desa set nmdesa='$nama',idkecamatan=$idkecamatan where iddesa=$id");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
 		?><script>alert("Gagal!");</script><?php
 	}
-	?><script>location.href='?page=ref-bidang';</script><?php
+	?><script>location.href='?page=ref-desa';</script><?php
 }
-if(isset($_GET['del-program'])){
+if(isset($_GET['del-desa'])){
 	$id=$_GET['id'];
-	$q=mysql_query("delete from ref_program where idprogram=$id");
+	$q=mysql_query("delete from ref_desa where iddesa=$id");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
 		?><script>alert("Gagal!");</script><?php
 	}
-	?><script>location.href='?page=ref-bidang';</script><?php
+	?><script>location.href='?page=ref-desa';</script><?php
 }
 
-//kegiatan
-if(isset($_POST['add-kegiatan'])){
-	$idprogram=$_POST['program'];
-	$nama=$_POST['nama'];
-	$q=mysql_query("insert into ref_kegiatan values(null,$idprogram,'$nama')");
-	if($q){
-		?><script>alert("Sukses!");</script><?php
-	}else{
-		?><script>alert("Gagal!");</script><?php
-	}
-	?><script>location.href='?page=ref-bidang';</script><?php
-}
-if(isset($_POST['edit-kegiatan'])){
-	$id=$_POST['id'];
-	$idprogram=$_POST['program'];
-	$nama=$_POST['nama'];
-	$q=mysql_query("update ref_kegiatan set nmkegiatan='$nama',idprogram=$idprogram where idkegiatan=$id");
-	if($q){
-		?><script>alert("Sukses!");</script><?php
-	}else{
-		?><script>alert("Gagal!");</script><?php
-	}
-	?><script>location.href='?page=ref-bidang';</script><?php
-}
-if(isset($_GET['del-kegiatan'])){
-	$id=$_GET['id'];
-	$q=mysql_query("delete from ref_kegiatan where idkegiatan=$id");
-	if($q){
-		?><script>alert("Sukses!");</script><?php
-	}else{
-		?><script>alert("Gagal!");</script><?php
-	}
-	?><script>location.href='?page=ref-bidang';</script><?php
-}
 ?>
 <div class="main-content-inner">
 	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -119,38 +85,38 @@ if(isset($_GET['del-kegiatan'])){
 				<?php
 				if(isset($_GET['aksi'])){
 					$aksi=$_GET['aksi'];
-					if($aksi=='add-bidang'){
+					if($aksi=='add-kecamatan'){
 				?>
 				<div class="row">
 					<div class="space-6"></div>
 					<div class="col-md-12">
-						<h3 class="header smaller lighter blue">Bidang</h3>
+						<h3 class="header smaller lighter blue">Kecamatan</h3>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
 						<div class="col-md-12">
 							<div class="widget-box">
 								<div class="widget-header">
-									<h4 class="widget-title">Tambah Sub Bidang</h4>
+									<h4 class="widget-title">Tambah Kecamatan</h4>
 								</div>
 
 								<div class="widget-body">
 									<div class="widget-main">
 										<form method="post">
 											<div>
-												<label for="form-field-select-3">Nama Sub Bidang</label>
+												<label for="form-field-select-3">Nama Kecamatan</label>
 												<br />
-												<input type="text" id="form-field-1" name="nama" placeholder="Nama Sub Bidang" class="form-control" />
+												<input type="text" id="form-field-1" name="nama" placeholder="Nama Kecamatan" class="form-control" />
 											</div>
 
 											<div class="form-actions center">
-												<button class="btn btn-info" name="add-bidang" type="submit">
+												<button class="btn btn-info" name="add-kecamatan" type="submit">
 													<i class="ace-icon fa fa-check bigger-110"></i>
 													Submit
 												</button>
 
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-bidang'">
+												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-desa'">
 													<i class="ace-icon fa fa-close bigger-110"></i>
 													Cancel
 												</button>
@@ -164,22 +130,22 @@ if(isset($_GET['del-kegiatan'])){
 					</div>
 				</div>
 				<?php
-					}else if($aksi=='edit-bidang'){
+					}else if($aksi=='edit-kecamatan'){
 						$id=$_GET['id'];
-						$q=mysql_query("select * from ref_bidang where idbidang=$id");
+						$q=mysql_query("select * from ref_kecamatan where idkecamatan=$id");
 						$h=mysql_fetch_array($q);
 				?>
 				<div class="row">
 					<div class="space-6"></div>
 					<div class="col-md-12">
-						<h3 class="header smaller lighter blue">Bidang</h3>
+						<h3 class="header smaller lighter blue">Kecamatan</h3>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
 						<div class="col-md-12">
 							<div class="widget-box">
 								<div class="widget-header">
-									<h4 class="widget-title">Edit Sub Bidang</h4>
+									<h4 class="widget-title">Edit Kecamatan</h4>
 								</div>
 
 								<div class="widget-body">
@@ -187,19 +153,19 @@ if(isset($_GET['del-kegiatan'])){
 										<form method="post">
 											<input type="hidden" name="id" value="<?php echo $id; ?>" />
 											<div>
-												<label for="form-field-select-3">Nama Sub Bidang</label>
+												<label for="form-field-select-3">Nama Kecamatan</label>
 												<br />
-												<input type="text" value="<?php echo $h['nmbidang']; ?>" id="form-field-1" name="nama" placeholder="Nama Sub Bidang" class="form-control" />
+												<input type="text" value="<?php echo $h['nmkecamatan']; ?>" id="form-field-1" name="nama" placeholder="Nama Kecamatan" class="form-control" />
 											</div>
 
 											<div class="form-actions center">
-												<button class="btn btn-info" name="edit-bidang" type="submit">
+												<button class="btn btn-info" name="edit-kecamatan" type="submit">
 													<i class="ace-icon fa fa-check bigger-110"></i>
 													Submit
 												</button>
 
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-bidang'">
+												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-desa'">
 													<i class="ace-icon fa fa-close bigger-110"></i>
 													Cancel
 												</button>
@@ -213,20 +179,20 @@ if(isset($_GET['del-kegiatan'])){
 					</div>
 				</div>
 				<?php
-					}else if($aksi=='add-program'){
+					}else if($aksi=='add-desa'){
 						$id=$_GET['id'];
 				?>
 				<div class="row">
 					<div class="space-6"></div>
 					<div class="col-md-12">
-						<h3 class="header smaller lighter blue">Program</h3>
+						<h3 class="header smaller lighter blue">Desa</h3>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
 						<div class="col-md-12">
 							<div class="widget-box">
 								<div class="widget-header">
-									<h4 class="widget-title">Tambah Program</h4>
+									<h4 class="widget-title">Tambah Desa</h4>
 								</div>
 
 								<div class="widget-body">
@@ -234,34 +200,34 @@ if(isset($_GET['del-kegiatan'])){
 										<form method="post">
 											<input type="hidden" name="id" value="<?php echo $id; ?>" />
 											<div>
-												<label for="form-field-select-3">Bidang</label>
+												<label for="form-field-select-3">Kecamatan</label>
 												<br />
-												<select name="bidang" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Bidang ...">
+												<select name="kecamatan" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Kecamatan ...">
 													<option value="">  </option>
 													<?php
-													$q=mysql_query("select * from ref_bidang");
+													$q=mysql_query("select * from ref_kecamatan");
 													while($h=mysql_fetch_array($q)){
 													?>
-													<option value="<?php echo $h['idbidang']; ?>"><?php echo $h['nmbidang']; ?></option>
+													<option value="<?php echo $h['idkecamatan']; ?>"><?php echo $h['nmkecamatan']; ?></option>
 													<?php
 													}
 													?>
 												</select>
 											</div>
 											<div>
-												<label for="form-field-select-3">Nama Program</label>
+												<label for="form-field-select-3">Nama Desa</label>
 												<br />
-												<input type="text" id="form-field-1" name="nama" placeholder="Nama Program" class="form-control" />
+												<input type="text" id="form-field-1" name="nama" placeholder="Nama Desa" class="form-control" />
 											</div>
 
 											<div class="form-actions center">
-												<button class="btn btn-info" name="add-program" type="submit">
+												<button class="btn btn-info" name="add-desa" type="submit">
 													<i class="ace-icon fa fa-check bigger-110"></i>
 													Submit
 												</button>
 
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-bidang'">
+												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-desa'">
 													<i class="ace-icon fa fa-close bigger-110"></i>
 													Cancel
 												</button>
@@ -275,22 +241,22 @@ if(isset($_GET['del-kegiatan'])){
 					</div>
 				</div>
 				<?php
-					}else if($aksi=='edit-program'){
+					}else if($aksi=='edit-desa'){
 						$id=$_GET['id'];
-						$q=mysql_query("select * from ref_program where idprogram=$id");
+						$q=mysql_query("select * from ref_desa where iddesa=$id");
 						$h=mysql_fetch_array($q);
 				?>
 				<div class="row">
 					<div class="space-6"></div>
 					<div class="col-md-12">
-						<h3 class="header smaller lighter blue">Program</h3>
+						<h3 class="header smaller lighter blue">Desa</h3>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
 						<div class="col-md-12">
 							<div class="widget-box">
 								<div class="widget-header">
-									<h4 class="widget-title">Edit Program</h4>
+									<h4 class="widget-title">Edit Desa</h4>
 								</div>
 
 								<div class="widget-body">
@@ -298,34 +264,34 @@ if(isset($_GET['del-kegiatan'])){
 										<form method="post">
 											<input type="hidden" name="id" value="<?php echo $id; ?>" />
 											<div>
-												<label for="form-field-select-3">Bidang</label>
+												<label for="form-field-select-3">Kecamatan</label>
 												<br />
-												<select name="bidang" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Bidang ...">
+												<select name="kecamatan" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Kecamatan ...">
 													<option value="">  </option>
 													<?php
-													$qq=mysql_query("select * from ref_bidang");
+													$qq=mysql_query("select * from ref_kecamatan");
 													while($hh=mysql_fetch_array($qq)){
 													?>
-													<option value="<?php echo $hh['idbidang']; ?>" <?php echo ($h['idbidang']==$hh['idbidang'])?"selected":""; ?> ><?php echo $hh['nmbidang']; ?></option>
+													<option value="<?php echo $hh['idkecamatan']; ?>" <?php echo ($h['idkecamatan']==$hh['idkecamatan'])?"selected":""; ?> ><?php echo $hh['nmkecamatan']; ?></option>
 													<?php
 													}
 													?>
 												</select>
 											</div>
 											<div>
-												<label for="form-field-select-3">Nama Program</label>
+												<label for="form-field-select-3">Nama Desa</label>
 												<br />
-												<input type="text" value="<?php echo $h['nmprogram']; ?>" id="form-field-1" name="nama" placeholder="Nama Program" class="form-control" />
+												<input type="text" value="<?php echo $h['nmdesa']; ?>" id="form-field-1" name="nama" placeholder="Nama Desa" class="form-control" />
 											</div>
 
 											<div class="form-actions center">
-												<button class="btn btn-info" name="edit-program" type="submit">
+												<button class="btn btn-info" name="edit-desa" type="submit">
 													<i class="ace-icon fa fa-check bigger-110"></i>
 													Submit
 												</button>
 
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-bidang'">
+												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-desa'">
 													<i class="ace-icon fa fa-close bigger-110"></i>
 													Cancel
 												</button>
@@ -471,10 +437,10 @@ if(isset($_GET['del-kegiatan'])){
 				<div class="row">
 					<div class="space-6"></div>
 					<div class="col-md-12">
-						<h3 class="header smaller lighter blue">Bidang</h3>
-						<button class="btn btn-xs btn-success" onclick="location.href='?page=ref-bidang&aksi=add-bidang'">
+						<h3 class="header smaller lighter blue">Kecamatan</h3>
+						<button class="btn btn-xs btn-success" onclick="location.href='?page=ref-desa&aksi=add-kecamatan'">
 							<i class="ace-icon fa fa-plus bigger-120"></i>
-							Tambah Sub Bidang
+							Tambah Kecamatan
 						</button>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
@@ -483,25 +449,25 @@ if(isset($_GET['del-kegiatan'])){
 							<thead>
 								<tr>
 									<th>Kode</th>
-									<th>Nama Sub Bidang</th>
+									<th>Nama Kecamatan</th>
 									<th>Aksi</th>
 								</tr>
 							</thead>
 
 							<tbody>
 								<?php
-								$q=mysql_query("select * from ref_bidang order by idbidang asc");
+								$q=mysql_query("select * from ref_kecamatan order by idkecamatan asc");
 								while($h=mysql_fetch_array($q)){
 								?>
 								<tr>
-									<td><?php echo $h['idbidang']; ?></td>
-									<td><?php echo $h['nmbidang']; ?></td>
+									<td><?php echo $h['idkecamatan']; ?></td>
+									<td><?php echo $h['nmkecamatan']; ?></td>
 									<td>
 										<div class="btn-group">
-											<button class="btn btn-xs btn-info" onclick="location.href='?page=ref-bidang&id=<?php echo $h['idbidang']; ?>&aksi=edit-bidang'" type="button">
+											<button class="btn btn-xs btn-info" onclick="location.href='?page=ref-desa&id=<?php echo $h['idkecamatan']; ?>&aksi=edit-kecamatan'" type="button">
 												<i class="ace-icon fa fa-pencil bigger-120"></i>
 											</button>
-											<button class="btn btn-xs btn-danger" onclick="location.href='?page=ref-bidang&id=<?php echo $h['idbidang']; ?>&del-bidang'" type="button">
+											<button class="btn btn-xs btn-danger" onclick="location.href='?page=ref-desa&id=<?php echo $h['idkecamatan']; ?>&del-kecamatan'" type="button">
 												<i class="ace-icon fa fa-trash-o bigger-120"></i>
 											</button>
 										</div>
@@ -514,86 +480,39 @@ if(isset($_GET['del-kegiatan'])){
 						</table>
 					</div>
 					<div class="col-md-12">
-						<h3 class="header smaller lighter blue">Program</h3>
-						<button class="btn btn-xs btn-success" onclick="location.href='?page=ref-bidang&aksi=add-program'">
+						<h3 class="header smaller lighter blue">Desa</h3>
+						<button class="btn btn-xs btn-success" onclick="location.href='?page=ref-desa&aksi=add-desa'">
 							<i class="ace-icon fa fa-plus bigger-120"></i>
-							Tambah Program
+							Tambah Desa
 						</button>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
-						<table id="simple-table" class="table  table-bordered table-hover">
+						<table id="table-desa" class="table table-bordered table-hover">
 							<thead>
 								<tr>
 									<th>Kode</th>
-									<th>Nama Bidang</th>
-									<th>Nama Program</th>
+									<th>Nama Kecamatan</th>
+									<th>Nama Kelurahan/Desa</th>
 									<th>Aksi</th>
 								</tr>
 							</thead>
 
 							<tbody>
 								<?php
-								$q=mysql_query("select p.idbidang,idprogram,nmbidang,nmprogram from ref_program as p inner join ref_bidang as b on b.idbidang=p.idbidang order by p.idbidang,idprogram asc");
+								$q=mysql_query("select iddesa,d.idkecamatan,nmdesa,nmkecamatan from ref_desa as p inner join ref_kecamatan as d on p.idkecamatan=d.idkecamatan order by d.idkecamatan,iddesa asc");
 								while($h=mysql_fetch_array($q)){
 								?>
 								<tr>
-									<td><?php echo "$h[idbidang].$h[idprogram]"; ?></td>
-									<td><?php echo $h['nmbidang']; ?></td>
-									<td><?php echo $h['nmprogram']; ?></td>
+									<td><?php echo "$h[idkecamatan].$h[iddesa]"; ?></td>
+									<td><?php echo $h['nmkecamatan']; ?></td>
+									<td><?php echo $h['nmdesa']; ?></td>
 									<td>
 										<div class="btn-group">
-											<button class="btn btn-xs btn-info" onclick="location.href='?page=ref-bidang&id=<?php echo $h['idprogram']; ?>&aksi=edit-program'" type="button">
+											<button class="btn btn-xs btn-info" onclick="location.href='?page=ref-desa&id=<?php echo $h['iddesa']; ?>&aksi=edit-desa'" type="button">
 												<i class="ace-icon fa fa-pencil bigger-120"></i>
 											</button>
-											<button class="btn btn-xs btn-danger" onclick="location.href='?page=ref-bidang&id=<?php echo $h['idprogram']; ?>&del-program'" type="button">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<?php
-								}
-								?>
-							</tbody>
-						</table>
-					</div>
-					<div class="col-md-12">
-						<h3 class="header smaller lighter blue">Kegiatan</h3>
-						<button class="btn btn-xs btn-success" onclick="location.href='?page=ref-bidang&aksi=add-kegiatan'">
-							<i class="ace-icon fa fa-plus bigger-120"></i>
-							Tambah Kegiatan
-						</button>
-						<div class="clearfix">
-							<div class="pull-right tableTools-container"></div>
-						</div>
-						<table id="simple-table" class="table  table-bordered table-hover">
-							<thead>
-								<tr>
-									<th>Kode</th>
-									<th>Nama Bidang</th>
-									<th>Nama Program</th>
-									<th>Nama Kegiatan</th>
-									<th>Aksi</th>
-								</tr>
-							</thead>
-
-							<tbody>
-								<?php
-								$q=mysql_query("select q.idbidang,p.idprogram,idkegiatan,nmbidang,nmprogram,nmkegiatan from ref_kegiatan as p inner join ref_program as b on b.idprogram=p.idprogram inner join ref_bidang as q on q.idbidang=b.idbidang order by q.idbidang,p.idprogram,idkegiatan asc");
-								while($h=mysql_fetch_array($q)){
-								?>
-								<tr>
-									<td><?php echo "$h[0].$h[1].$h[2]"; ?></td>
-									<td><?php echo $h['nmbidang']; ?></td>
-									<td><?php echo $h['nmprogram']; ?></td>
-									<td><?php echo $h['nmkegiatan']; ?></td>
-									<td>
-										<div class="btn-group">
-											<button class="btn btn-xs btn-info" onclick="location.href='?page=ref-bidang&id=<?php echo $h['idkegiatan']; ?>&aksi=edit-kegiatan'" type="button">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</button>
-											<button class="btn btn-xs btn-danger" onclick="location.href='?page=ref-bidang&id=<?php echo $h['idkegiatan']; ?>&del-kegiatan'" type="button">
+											<button class="btn btn-xs btn-danger" onclick="location.href='?page=ref-desa&id=<?php echo $h['iddesa']; ?>&del-desa'" type="button">
 												<i class="ace-icon fa fa-trash-o bigger-120"></i>
 											</button>
 										</div>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.5
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Waktu pembuatan: 26. Oktober 2017 jam 09:27
--- Versi Server: 5.5.16
--- Versi PHP: 5.3.8
+-- Host: 127.0.0.1
+-- Generation Time: Nov 01, 2017 at 05:30 AM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ref_bidang`
+-- Table structure for table `ref_bidang`
 --
 
 CREATE TABLE IF NOT EXISTS `ref_bidang` (
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `ref_bidang` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data untuk tabel `ref_bidang`
+-- Dumping data for table `ref_bidang`
 --
 
 INSERT INTO `ref_bidang` (`idbidang`, `nmbidang`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `ref_bidang` (`idbidang`, `nmbidang`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ref_desa`
+-- Table structure for table `ref_desa`
 --
 
 CREATE TABLE IF NOT EXISTS `ref_desa` (
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `ref_desa` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=373 ;
 
 --
--- Dumping data untuk tabel `ref_desa`
+-- Dumping data for table `ref_desa`
 --
 
 INSERT INTO `ref_desa` (`iddesa`, `idkecamatan`, `nmdesa`) VALUES
@@ -437,7 +437,7 @@ INSERT INTO `ref_desa` (`iddesa`, `idkecamatan`, `nmdesa`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ref_kecamatan`
+-- Table structure for table `ref_kecamatan`
 --
 
 CREATE TABLE IF NOT EXISTS `ref_kecamatan` (
@@ -447,7 +447,7 @@ CREATE TABLE IF NOT EXISTS `ref_kecamatan` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
--- Dumping data untuk tabel `ref_kecamatan`
+-- Dumping data for table `ref_kecamatan`
 --
 
 INSERT INTO `ref_kecamatan` (`idkecamatan`, `nmkecamatan`) VALUES
@@ -467,7 +467,7 @@ INSERT INTO `ref_kecamatan` (`idkecamatan`, `nmkecamatan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ref_kegiatan`
+-- Table structure for table `ref_kegiatan`
 --
 
 CREATE TABLE IF NOT EXISTS `ref_kegiatan` (
@@ -475,12 +475,21 @@ CREATE TABLE IF NOT EXISTS `ref_kegiatan` (
   `idprogram` int(11) NOT NULL,
   `nmkegiatan` varchar(150) NOT NULL,
   PRIMARY KEY (`idkegiatan`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `ref_kegiatan`
+--
+
+INSERT INTO `ref_kegiatan` (`idkegiatan`, `idprogram`, `nmkegiatan`) VALUES
+(1, 1, 'Pemeliharaan Berkala Jalan'),
+(2, 1, 'Rehabilitasi Jalan'),
+(3, 2, 'Operasional dan Pemeliharaan Saluran');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ref_program`
+-- Table structure for table `ref_program`
 --
 
 CREATE TABLE IF NOT EXISTS `ref_program` (
@@ -488,12 +497,45 @@ CREATE TABLE IF NOT EXISTS `ref_program` (
   `idbidang` int(11) NOT NULL,
   `nmprogram` varchar(100) NOT NULL,
   PRIMARY KEY (`idprogram`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `ref_program`
+--
+
+INSERT INTO `ref_program` (`idprogram`, `idbidang`, `nmprogram`) VALUES
+(1, 1, 'Pemeliharaan Berkala/Rehab Jalan'),
+(2, 2, 'Operasional dan Pemeliharaan Rutin Jaringan');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `ref_rekanan`
+--
+
+CREATE TABLE IF NOT EXISTS `ref_rekanan` (
+  `idrekanan` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `alamat` varchar(150) NOT NULL,
+  `telpon` varchar(30) NOT NULL,
+  `npwp` varchar(50) NOT NULL,
+  `bank` varchar(50) NOT NULL,
+  `rek` varchar(30) NOT NULL,
+  `ket` varchar(225) NOT NULL,
+  PRIMARY KEY (`idrekanan`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `ref_rekanan`
+--
+
+INSERT INTO `ref_rekanan` (`idrekanan`, `nama`, `alamat`, `telpon`, `npwp`, `bank`, `rek`, `ket`) VALUES
+(2, 'CV. Mantangai Indah Pusat Kuala Kapuas', 'Jl. Tambun Bungai Gg. VII No. 33 Kuala Kapuas', '(0513) 21714', '12892982198', 'Bank Pembangunan Kalteng', '00291819', '-');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
@@ -505,7 +547,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`username`, `nama`, `password`, `akses`) VALUES

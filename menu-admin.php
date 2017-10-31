@@ -42,7 +42,7 @@
 				</ul>
 			</li>
 			
-			<li class="">
+			<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-desa'))?'active open':''; ?>">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-caret-right"></i>
 					Kecamatan dan Kelurahan/Desa
@@ -51,15 +51,7 @@
 
 				<b class="arrow"></b>
 				<ul class="submenu">
-					<li class="">
-						<a href="?page=ref-desa&aksi=tambah">
-							<i class="menu-icon fa fa-plus purple"></i>
-							Tambah
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					<li class="">
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-desa'))?'active':''; ?>">
 						<a href="?page=ref-desa">
 							<i class="menu-icon fa fa-eye pink"></i>
 							Lihat
@@ -70,7 +62,7 @@
 				</ul>
 			</li>
 			
-			<li class="">
+			<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-rekanan'))?'active open':''; ?>">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-caret-right"></i>
 					Rekanan
@@ -79,15 +71,15 @@
 
 				<b class="arrow"></b>
 				<ul class="submenu">
-					<li class="">
-						<a href="?page=ref-rekanan&aksi=tambah">
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-rekanan')&&(isset($_GET['add'])||isset($_GET['edit'])))?'active':''; ?>">
+						<a href="?page=ref-rekanan&add">
 							<i class="menu-icon fa fa-plus purple"></i>
 							Tambah
 						</a>
 
 						<b class="arrow"></b>
 					</li>
-					<li class="">
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-rekanan')&&((!isset($_GET['add'])&&!isset($_GET['edit']))))?'active':''; ?>">
 						<a href="?page=ref-rekanan">
 							<i class="menu-icon fa fa-eye pink"></i>
 							Lihat
@@ -100,7 +92,7 @@
 		</ul>
 	</li>
 	
-	<li class="">
+	<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='pengguna'))?'active open':''; ?>">
 		<a href="#" class="dropdown-toggle">
 			<i class="menu-icon fa fa-users"></i>
 			<span class="menu-text">
@@ -113,8 +105,8 @@
 		<b class="arrow"></b>
 
 		<ul class="submenu">
-			<li class="">
-				<a href="?page=pengguna&aksi=tambah">
+			<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='pengguna')&&(isset($_GET['add'])||isset($_GET['edit'])))?'active':''; ?>">
+				<a href="?page=pengguna&add">
 					<i class="menu-icon fa fa-caret-right"></i>
 					Tambah
 				</a>
@@ -122,7 +114,7 @@
 				<b class="arrow"></b>
 			</li>
 
-			<li class="">
+			<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='pengguna')&&((!isset($_GET['add'])&&!isset($_GET['edit']))))?'active':''; ?>">
 				<a href="?page=pengguna">
 					<i class="menu-icon fa fa-caret-right"></i>
 					Lihat
