@@ -1,11 +1,12 @@
 <?php
 //rekanan
 if(isset($_POST['add'])){
+	$idbidang=$_POST['bidang'];
 	$nama=$_POST['nama'];
 	$username=$_POST['username'];
 	$password=md5($_POST['password']);
 	$akses=$_POST['akses'];
-	$q=mysql_query("insert into user values('$username','$nama','$password','$akses')");
+	$q=mysql_query("insert into user values('$username',$idbidang,'$nama','$password','$akses')");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
@@ -14,11 +15,12 @@ if(isset($_POST['add'])){
 	?><script>location.href='?page=pengguna';</script><?php
 }
 if(isset($_POST['edit'])){
+	$idbidang=$_POST['bidang'];
 	$nama=$_POST['nama'];
 	$username=$_POST['username'];
 	$password=md5($_POST['password']);
 	$akses=$_POST['akses'];
-	$q=mysql_query("update user set nama='$nama',password='$password',akses='$akses' where username='$username'");
+	$q=mysql_query("update user set nama='$nama',idbidang=$idbidang,password='$password',akses='$akses' where username='$username'");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
@@ -71,6 +73,29 @@ if(isset($_GET['del'])){
 								<div class="widget-body">
 									<div class="widget-main">
 										<form method="post">
+											<div>
+												<label for="form-field-select-3">Sub Bidang</label>
+												<br />
+												<select name="bidang" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Sub Bidang ...">
+													<?php
+													if($_SESSION['bidang']==0){
+														?><option value="">  </option><?php
+														$q=mysql_query("select * from ref_bidang");
+														while($h=mysql_fetch_array($q)){
+													?>
+													<option value="<?php echo $h['idbidang']; ?>"><?php echo $h['nmbidang']; ?></option>
+													<?php
+														}
+													}else{
+														$q=mysql_query("select * from ref_bidang where idbidang=$_SESSION[bidang]");
+														$h=mysql_fetch_array($q);
+														?>
+														<option value="<?php echo $h['idbidang']; ?>"><?php echo $h['nmbidang']; ?></option>
+														<?php
+													}
+													?>
+												</select>
+											</div>
 											<div>
 												<label for="form-field-select-3">Nama Pengguna</label>
 												<br />
@@ -143,6 +168,29 @@ if(isset($_GET['del'])){
 										<form method="post">
 											<input type="hidden" name="id" value="<?php echo $id; ?>" />
 											<div>
+												<label for="form-field-select-3">Sub Bidang</label>
+												<br />
+												<select name="bidang" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Sub Bidang ...">
+													<?php
+													if($_SESSION['bidang']==0){
+														?><option value="">  </option><?php
+														$qq=mysql_query("select * from ref_bidang");
+														while($hh=mysql_fetch_array($qq)){
+														?>
+														<option value="<?php echo $hh['idbidang']; ?>" <?php echo ($h['idbidang']==$hh['idbidang'])?"selected":""; ?> ><?php echo $hh['nmbidang']; ?></option>
+													<?php
+														}
+													}else{
+														$qq=mysql_query("select * from ref_bidang where idbidang=$_SESSION[bidang]");
+														$hh=mysql_fetch_array($qq);
+														?>
+														<option value="<?php echo $hh['idbidang']; ?>"><?php echo $hh['nmbidang']; ?></option>
+														<?php
+													}
+													?>
+												</select>
+											</div>
+											<div>
 												<label for="form-field-select-3">Nama Pengguna</label>
 												<br />
 												<input type="text" value="<?php echo $h['nama']; ?>" id="form-field-1" name="nama" placeholder="Nama Pengguna" class="form-control" />
@@ -204,6 +252,7 @@ if(isset($_GET['del'])){
 							<thead>
 								<tr>
 									<th>Nama Pengguna</th>
+									<th>Sub Bidang</th>
 									<th>Username</th>
 									<th>Akses</th>
 									<th>Aksi</th>
@@ -212,11 +261,18 @@ if(isset($_GET['del'])){
 
 							<tbody>
 								<?php
-								$q=mysql_query("select * from user");
+								if($_SESSION['bidang']==0){
+									$q=mysql_query("select * from user");
+								}else{
+									$q=mysql_query("select * from user where idbidang=$_SESSION[bidang] and username<>'$_SESSION[id]'");
+								}
 								while($h=mysql_fetch_array($q)){
+									$qq=mysql_query("select * from ref_bidang where idbidang=$h[idbidang]");
+									$hh=mysql_fetch_array($qq);
 								?>
 								<tr>
 									<td><?php echo $h['nama']; ?></td>
+									<td><?php echo $hh['nmbidang']; ?></td>
 									<td><?php echo $h['username']; ?></td>
 									<td><strong><?php echo strtoupper($h['akses']); ?></strong></td>
 									<td>

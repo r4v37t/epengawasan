@@ -172,6 +172,10 @@ if(isset($_GET['logout'])){
 		
 		<script src="assets/js/jquery.dataTables.min.js"></script>
 		<script src="assets/js/jquery.dataTables.bootstrap.min.js"></script>
+		
+		<script src="assets/js/jquery.maskMoney.min.js"></script>
+		
+		<script src="assets/js/bootstrap-datepicker.min.js"></script>
 
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
@@ -180,6 +184,29 @@ if(isset($_GET['logout'])){
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			jQuery(function($) {
+				$('.date-picker').datepicker({
+					autoclose: true,
+					todayHighlight: true
+				})
+				//show datepicker when clicking on the icon
+				.next().on(ace.click_event, function(){
+					$(this).prev().focus();
+				});
+				
+				
+				$('#hari1').maskMoney({
+					precision:0,
+					suffix:' Hari Kalender'
+				});
+				$('#hari2').maskMoney({
+					precision:0,
+					suffix:' Hari Kalender'
+				});
+				
+				$('#uang').maskMoney({
+					precision:0
+				});
+				
 				$('#table-desa')
 				//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
 				.DataTable( {
@@ -257,6 +284,7 @@ if(isset($_GET['logout'])){
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
+					  null,
 					  null,
 					  null,
 					  null,

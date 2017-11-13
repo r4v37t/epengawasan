@@ -6,6 +6,8 @@ if(isset($_GET['page'])){
 		include $_GET['page'].'.php';
 	}else if($_GET['page']=='ref-rekanan'){
 		include $_GET['page'].'.php';
+	}else if($_GET['page']=='ref-paket'){
+		include $_GET['page'].'.php';
 	}else if($_GET['page']=='pengguna'){
 		include $_GET['page'].'.php';
 	}else{

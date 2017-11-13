@@ -7,10 +7,82 @@
 
 		<b class="arrow"></b>
 	</li>
-
-	<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-bidang'||$_GET['page']=='ref-desa'||$_GET['page']=='ref-rekanan'))?'active open':''; ?>">
+	
+	<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-paket'||$_GET['page']=='ref-progres'))?'active open':''; ?>">
 		<a href="#" class="dropdown-toggle">
 			<i class="menu-icon fa fa-book"></i>
+			<span class="menu-text">
+				Data Pekerjaan
+			</span>
+
+			<b class="arrow fa fa-angle-down"></b>
+		</a>
+
+		<b class="arrow"></b>
+
+		<ul class="submenu">
+
+			<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-paket'))?'active open':''; ?>">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-caret-right"></i>
+					Paket Pekerjaan
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+				<ul class="submenu">
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-paket')&&(isset($_GET['daftar'])))?'active':''; ?>">
+						<a href="?page=ref-paket&daftar">
+							<i class="menu-icon fa fa-list-alt green"></i>
+							Daftar Paket
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-paket')&&(isset($_GET['data'])))?'active':''; ?>">
+						<a href="?page=ref-paket&data">
+							<i class="menu-icon fa fa-file-text green"></i>
+							Data Kontrak
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+				</ul>
+			</li>
+			
+			<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-progres'))?'active open':''; ?>">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-caret-right"></i>
+					Progres Pekerjaan
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+				<ul class="submenu">
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-progres')&&(isset($_GET['data'])))?'active':''; ?>">
+						<a href="?page=ref-progres&data">
+							<i class="menu-icon fa fa-line-chart green"></i>
+							Data Progres
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-progres')&&(isset($_GET['foto'])))?'active':''; ?>">
+						<a href="?page=ref-progres&foto">
+							<i class="menu-icon fa fa-photo green"></i>
+							Data Foto
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	
+	<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-bidang'||$_GET['page']=='ref-desa'||$_GET['page']=='ref-rekanan'))?'active open':''; ?>">
+		<a href="#" class="dropdown-toggle">
+			<i class="menu-icon fa fa-cogs"></i>
 			<span class="menu-text">
 				Referensi
 			</span>

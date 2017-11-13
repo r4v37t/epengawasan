@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2017 at 05:30 AM
+-- Generation Time: Nov 14, 2017 at 05:39 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -475,7 +475,7 @@ CREATE TABLE IF NOT EXISTS `ref_kegiatan` (
   `idprogram` int(11) NOT NULL,
   `nmkegiatan` varchar(150) NOT NULL,
   PRIMARY KEY (`idkegiatan`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `ref_kegiatan`
@@ -497,7 +497,7 @@ CREATE TABLE IF NOT EXISTS `ref_program` (
   `idbidang` int(11) NOT NULL,
   `nmprogram` varchar(100) NOT NULL,
   PRIMARY KEY (`idprogram`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `ref_program`
@@ -540,6 +540,7 @@ INSERT INTO `ref_rekanan` (`idrekanan`, `nama`, `alamat`, `telpon`, `npwp`, `ban
 
 CREATE TABLE IF NOT EXISTS `user` (
   `username` varchar(50) NOT NULL,
+  `idbidang` int(11) NOT NULL,
   `nama` varchar(100) NOT NULL,
   `password` varchar(50) NOT NULL,
   `akses` varchar(20) NOT NULL,
@@ -550,8 +551,10 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`username`, `nama`, `password`, `akses`) VALUES
-('admin', 'Administrator', '21232f297a57a5a743894a0e4a801fc3', 'admin');
+INSERT INTO `user` (`username`, `idbidang`, `nama`, `password`, `akses`) VALUES
+('admin', 0, 'Administrator', '21232f297a57a5a743894a0e4a801fc3', 'admin'),
+('adminjalan', 1, 'Admin Jalan', 'd29c0398602e6cf005f0dcb7a0443c7d', 'admin'),
+('rjalan1', 1, 'Rekanan Jalan', '11a9e6150dbb62ee09af8213b30e0516', 'rekanan');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

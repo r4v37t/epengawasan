@@ -10,6 +10,7 @@ if(isset($_POST['id'])){
 		$_SESSION['id']=$username;
 		$_SESSION['nama']=$h['nama'];
 		$_SESSION['akses']=$h['akses'];
+		$_SESSION['bidang']=$h['idbidang'];
 	}else{
 		?><script>alert('ERROR!\n\nID dan Sandi tidak terdaftar.');</script><?php
 	}
