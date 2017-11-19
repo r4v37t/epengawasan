@@ -386,15 +386,17 @@ if(isset($_GET['del'])){
 											</div>
 											
 											<?php
-											for($x=0;$x<=$bulan;$x++){
-												$n=$bulan+$x;
+											$y=0;
+											for($x=($blnawal-1);$x<$blnakhir;$x++){
+												$n=$x+1;
 											?>
 											<div class="col-sm-2">
 												<label for="form-field-select-3"><?php echo bulanindo($n); ?></label>
 												<br />
-												<input type="text" value="<?php echo $rencana[$x]; ?>" name="tsrenc[]" class="form-control" />
+												<input type="text" value="<?php echo $rencana[$y]; ?>" name="tsrenc[]" class="form-control" />
 											</div>
 											<?php
+												$y++;
 											}
 											?>
 											
