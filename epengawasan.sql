@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2017 at 02:19 PM
+-- Generation Time: Nov 19, 2017 at 06:30 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -46,6 +46,27 @@ CREATE TABLE IF NOT EXISTS `dt_kontrak` (
 
 INSERT INTO `dt_kontrak` (`idkontrak`, `idbidang`, `nmpaket`, `pagu`, `nokontrak`, `idrekanan`, `ttdkontrak`, `spmk`, `pelaksanaan`, `pemeliharaan`) VALUES
 (3, 1, 'Peningkatan Jalan Pujon - Jangkang - Tumbang Tukun', 15000000000, '056/08/KTRK-BM/DAU/VI/PUPRPKP''2017', 2, '2017-06-13', '2017-06-13', 180, 180);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dt_schedule`
+--
+
+CREATE TABLE IF NOT EXISTS `dt_schedule` (
+  `idschedule` int(11) NOT NULL AUTO_INCREMENT,
+  `idkontrak` int(11) NOT NULL,
+  `rencana` varchar(255) NOT NULL,
+  `realisasi` varchar(255) NOT NULL,
+  PRIMARY KEY (`idschedule`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `dt_schedule`
+--
+
+INSERT INTO `dt_schedule` (`idschedule`, `idkontrak`, `rencana`, `realisasi`) VALUES
+(1, 3, '15;30;45;60;75;90;100', '');
 
 -- --------------------------------------------------------
 
