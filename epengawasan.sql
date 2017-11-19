@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2017 at 05:39 AM
+-- Generation Time: Nov 18, 2017 at 02:19 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -19,6 +19,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `epengawasan`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dt_kontrak`
+--
+
+CREATE TABLE IF NOT EXISTS `dt_kontrak` (
+  `idkontrak` int(11) NOT NULL AUTO_INCREMENT,
+  `idbidang` int(11) NOT NULL,
+  `nmpaket` varchar(255) NOT NULL,
+  `pagu` bigint(20) NOT NULL,
+  `nokontrak` varchar(255) NOT NULL,
+  `idrekanan` int(11) NOT NULL,
+  `ttdkontrak` date NOT NULL,
+  `spmk` date NOT NULL,
+  `pelaksanaan` int(11) NOT NULL,
+  `pemeliharaan` int(11) NOT NULL,
+  PRIMARY KEY (`idkontrak`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `dt_kontrak`
+--
+
+INSERT INTO `dt_kontrak` (`idkontrak`, `idbidang`, `nmpaket`, `pagu`, `nokontrak`, `idrekanan`, `ttdkontrak`, `spmk`, `pelaksanaan`, `pemeliharaan`) VALUES
+(3, 1, 'Peningkatan Jalan Pujon - Jangkang - Tumbang Tukun', 15000000000, '056/08/KTRK-BM/DAU/VI/PUPRPKP''2017', 2, '2017-06-13', '2017-06-13', 180, 180);
 
 -- --------------------------------------------------------
 
@@ -523,14 +550,14 @@ CREATE TABLE IF NOT EXISTS `ref_rekanan` (
   `rek` varchar(30) NOT NULL,
   `ket` varchar(225) NOT NULL,
   PRIMARY KEY (`idrekanan`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `ref_rekanan`
 --
 
 INSERT INTO `ref_rekanan` (`idrekanan`, `nama`, `alamat`, `telpon`, `npwp`, `bank`, `rek`, `ket`) VALUES
-(2, 'CV. Mantangai Indah Pusat Kuala Kapuas', 'Jl. Tambun Bungai Gg. VII No. 33 Kuala Kapuas', '(0513) 21714', '12892982198', 'Bank Pembangunan Kalteng', '00291819', '-');
+(2, 'PT. Timbul Jaya Karya Utama Pangkalan Bun', 'Jl. Tambun Bungai Gg. VII No. 33 Kuala Kapuas', '(0513) 21714', '12892982198', 'Bank Pembangunan Kalteng', '00291819', '-');
 
 -- --------------------------------------------------------
 
