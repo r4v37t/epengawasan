@@ -75,16 +75,16 @@
 
 						<b class="arrow"></b>
 					</li>
-					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-progres')&&(isset($_GET['foto'])))?'active':''; ?>">
-						<a href="?page=ref-progres&film">
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-progres')&&(isset($_GET['video'])))?'active':''; ?>">
+						<a href="?page=ref-progres&video">
 							<i class="menu-icon fa fa-film green"></i>
 							Data Video
 						</a>
 
 						<b class="arrow"></b>
 					</li>
-					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-progres')&&(isset($_GET['foto'])))?'active':''; ?>">
-						<a href="?page=ref-progres&map">
+					<li class="<?php echo (isset($_GET['page'])&&($_GET['page']=='ref-progres')&&(isset($_GET['peta'])))?'active':''; ?>">
+						<a href="?page=ref-progres&peta">
 							<i class="menu-icon fa fa-map green"></i>
 							Peta
 						</a>

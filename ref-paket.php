@@ -1,5 +1,4 @@
 <?php
-//rekanan
 if(isset($_POST['add'])){
 	$pagu=$_POST['pagu'];
 	$pagu=filter_var($pagu, FILTER_SANITIZE_NUMBER_INT);
@@ -13,7 +12,7 @@ if(isset($_POST['add'])){
 	$rekanan=$_POST['rekanan'];
 	$ttd=date('Y-m-d',strtotime($_POST['ttd']));
 	$spmk=date('Y-m-d',strtotime($_POST['spmk']));
-	$q=mysql_query("insert into dt_kontrak values(null,$bidang,'$nama',$pagu,'$kontrak',$rekanan,'$ttd','$spmk',$pelaksanaan,$pemeliharaan)");
+	$q=mysql_query("insert into dt_kontrak values(null,$bidang,'$nama',$pagu,'$kontrak',$rekanan,'$ttd','$spmk',$pelaksanaan,$pemeliharaan,0)");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
@@ -38,30 +37,56 @@ if(isset($_POST['savetsrenc'])){
 }
 if(isset($_POST['edit'])){
 	$id=$_POST['id'];
+	$pagu=$_POST['pagu'];
+	$pagu=filter_var($pagu, FILTER_SANITIZE_NUMBER_INT);
+	$pelaksanaan=$_POST['pelaksanaan'];
+	$pelaksanaan=filter_var($pelaksanaan, FILTER_SANITIZE_NUMBER_INT);
+	$pemeliharaan=$_POST['pemeliharaan'];
+	$pemeliharaan=filter_var($pemeliharaan, FILTER_SANITIZE_NUMBER_INT);
 	$nama=$_POST['nama'];
-	$alamat=$_POST['alamat'];
-	$telpon=$_POST['telpon'];
-	$npwp=$_POST['npwp'];
-	$bank=$_POST['bank'];
-	$rek=$_POST['rek'];
-	$ket=$_POST['ket'];
-	$q=mysql_query("update ref_rekanan set nama='$nama',alamat='$alamat',telpon='$telpon',npwp='$npwp',bank='$bank',rek='$rek',ket='$ket' where idrekanan=$id");
+	$kontrak=mysql_real_escape_string($_POST['kontrak']);
+	$ttd=date('Y-m-d',strtotime($_POST['ttd']));
+	$spmk=date('Y-m-d',strtotime($_POST['spmk']));
+	$q=mysql_query("update dt_kontrak set nmpaket='$nama',pagu=$pagu,nokontrak='$kontrak',ttdkontrak='$ttd',spmk='$spmk',pelaksanaan='$pelaksanaan',pemeliharaan='$pemeliharaan' where idkontrak=$id");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
 		?><script>alert("Gagal!");</script><?php
 	}
-	?><script>location.href='?page=ref-rekanan';</script><?php
+	?><script>location.href='?page=ref-paket&daftar';</script><?php
+}
+
+if(isset($_POST['addendum'])){
+	$id=$_POST['id'];
+	$add=$_POST['adden'];
+	$pagu=$_POST['pagu'];
+	$pagu=filter_var($pagu, FILTER_SANITIZE_NUMBER_INT);
+	$pelaksanaan=$_POST['pelaksanaan'];
+	$pelaksanaan=filter_var($pelaksanaan, FILTER_SANITIZE_NUMBER_INT);
+	$pemeliharaan=$_POST['pemeliharaan'];
+	$pemeliharaan=filter_var($pemeliharaan, FILTER_SANITIZE_NUMBER_INT);
+	$nama=$_POST['nama'];
+	$kontrak=mysql_real_escape_string($_POST['kontrak']);
+	$rekanan=$_POST['rekanan'];
+	$ttd=date('Y-m-d',strtotime($_POST['ttd']));
+	$spmk=date('Y-m-d',strtotime($_POST['spmk']));
+	$q=mysql_query("update dt_kontrak set nmpaket='$nama',pagu=$pagu,nokontrak='$kontrak',ttdkontrak='$ttd',spmk='$spmk',pelaksanaan='$pelaksanaan',pemeliharaan='$pemeliharaan',idrekanan=$rekanan,adden=$add where idkontrak=$id");
+	if($q){
+		?><script>alert("Sukses!");</script><?php
+	}else{
+		?><script>alert("Gagal!");</script><?php
+	}
+	?><script>location.href='?page=ref-paket&daftar';</script><?php
 }
 if(isset($_GET['del'])){
-	$id=$_GET['id'];
-	$q=mysql_query("delete from ref_rekanan where idrekanan=$id");
+	$id=$_GET['paket'];
+	$q=mysql_query("delete from dt_kontrak where idkontrak=$id");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
 		?><script>alert("Gagal!");</script><?php
 	}
-	?><script>location.href='?page=ref-rekanan';</script><?php
+	?><script>location.href='?page=ref-paket&daftar';</script><?php
 }
 
 ?>
@@ -196,67 +221,145 @@ if(isset($_GET['del'])){
 				</div>
 				<?php
 						}else if($_GET['aksi']=='edit'){
-							$id=$_GET['id'];
-							$q=mysql_query("select * from ref_rekanan where idrekanan=$id");
+							$id=$_GET['paket'];
+							$q=mysql_query("select * from dt_kontrak where idkontrak=$id");
 							$h=mysql_fetch_array($q);
+							$q=mysql_query("select * from ref_bidang where idbidang=$h[idbidang]");
+							$bidang=mysql_fetch_array($q);
+							$q=mysql_query("select * from ref_rekanan where idrekanan=$h[idrekanan]");
+							$rekanan=mysql_fetch_array($q);
 				?>
 				<div class="row">
 					<div class="space-6"></div>
 					<div class="col-md-12">
 						<h3 class="header smaller lighter blue">Paket Pekerjaan</h3>
-						<button class="btn btn-xs btn-success" onclick="location.href='?page=ref-paket&aksi=tambah&data'">
-							<i class="ace-icon fa fa-plus bigger-120"></i>
-							Tambah
-						</button>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
 						<div class="col-md-12">
 							<div class="widget-box">
 								<div class="widget-header">
-									<h4 class="widget-title">Data Kontrak</h4>
+									<h4 class="widget-title">Edit Data Kontrak</h4>
 								</div>
 
 								<div class="widget-body">
 									<div class="widget-main">
 										<form method="post">
+											<input type="hidden" name="id" value="<?php echo $id; ?>" />
 											<div>
 												<label for="form-field-select-3">Sub Bidang</label>
 												<br />
-												<select name="bidang" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Sub Bidang ...">
-													<?php
-													if($_SESSION['bidang']==0){
-														?><option value="">  </option><?php
-														$q=mysql_query("select * from ref_bidang");
-														while($h=mysql_fetch_array($q)){
-													?>
-													<option value="<?php echo $h['idbidang']; ?>"><?php echo $h['nmbidang']; ?></option>
-													<?php
-														}
-													}else{
-														$q=mysql_query("select * from ref_bidang where idbidang=$_SESSION[bidang]");
-														$h=mysql_fetch_array($q);
-														?>
-														<option value="<?php echo $h['idbidang']; ?>"><?php echo $h['nmbidang']; ?></option>
-														<?php
-													}
-													?>
-												</select>
+												<input type="text" id="form-field-1" name="bidang" value="<?php echo $bidang['nmbidang']; ?>" class="form-control" readonly />
 											</div>
 											<div>
 												<label for="form-field-select-3">Nama Paket</label>
 												<br />
-												<input type="text" id="form-field-1" name="nama" placeholder="Nama Paket" class="form-control" />
+												<input type="text" id="form-field-1" name="nama" placeholder="Nama Paket" class="form-control" value="<?php echo $h['nmpaket']; ?>" />
 											</div>
 											<div>
 												<label for="form-field-select-3">Pagu</label>
 												<br />
-												<input type="text" id="uang" data-thousands="." data-decimal="," data-prefix="Rp. " name="pagu" placeholder="Rp." class="form-control" />
+												<input type="text" id="uang" data-thousands="." data-decimal="," data-prefix="Rp. " name="pagu" placeholder="Rp." class="form-control" value="Rp. <?php echo number_format($h['pagu'],0,',','.'); ?>" />
 											</div>
 											<div>
 												<label for="form-field-select-3">Nomor Kontrak</label>
 												<br />
-												<input type="text" id="form-field-1" name="kontrak" placeholder="Nomor Kontrak" class="form-control" />
+												<input type="text" id="form-field-1" name="kontrak" placeholder="Nomor Kontrak" class="form-control" value="<?php echo $h['nokontrak']; ?>" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Nama Rekanan</label>
+												<br />
+												<input type="text" id="form-field-1" name="rekanan" value="<?php echo $rekanan['nama']; ?>" class="form-control" readonly />
+											</div>
+											<div>
+												<label for="form-field-select-3">Tanda Tangan Kontrak</label>
+												<br />
+												<input class="form-control date-picker" value="<?php echo date('d-m-Y',strtotime($h['ttdkontrak'])); ?>" name="ttd" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
+											</div>
+											<div>
+												<label for="form-field-select-3">SPMK</label>
+												<br />
+												<input class="form-control date-picker" value="<?php echo date('d-m-Y',strtotime($h['spmk'])); ?>" name="spmk" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Masa Pelaksanaan</label>
+												<br />
+												<input type="text" id="hari1" data-thousands="." value="<?php echo $h['pelaksanaan']; ?> Hari Kalender" name="pelaksanaan" class="form-control" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Masa Pemeliharaan</label>
+												<br />
+												<input type="text" id="hari2" data-thousands="." value="<?php echo $h['pemeliharaan']; ?> Hari Kalender" name="pemeliharaan" class="form-control" />
+											</div>
+
+											<div class="form-actions center">
+												<button class="btn btn-info" name="edit" type="submit">
+													<i class="ace-icon fa fa-check bigger-110"></i>
+													Submit
+												</button>
+
+												&nbsp; &nbsp; &nbsp;
+												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-rekanan'">
+													<i class="ace-icon fa fa-close bigger-110"></i>
+													Cancel
+												</button>
+											</div>
+										</form>
+										<hr />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<?php
+						}else if($_GET['aksi']=='addendum'){
+							$id=$_GET['paket'];
+							$q=mysql_query("select * from dt_kontrak where idkontrak=$id");
+							$h=mysql_fetch_array($q);
+							$q=mysql_query("select * from ref_bidang where idbidang=$h[idbidang]");
+							$bidang=mysql_fetch_array($q);
+							$q=mysql_query("select * from ref_rekanan where idrekanan=$h[idrekanan]");
+							$rekanan=mysql_fetch_array($q);
+							$addendum=$h['adden']+1;
+				?>
+				<div class="row">
+					<div class="space-6"></div>
+					<div class="col-md-12">
+						<h3 class="header smaller lighter blue">Paket Pekerjaan</h3>
+						<div class="clearfix">
+							<div class="pull-right tableTools-container"></div>
+						</div>
+						<div class="col-md-12">
+							<div class="widget-box">
+								<div class="widget-header">
+									<h4 class="widget-title">[Addendum-<?php echo $addendum; ?>] Data Kontrak</h4>
+								</div>
+
+								<div class="widget-body">
+									<div class="widget-main">
+										<form method="post">
+											<input type="hidden" name="id" value="<?php echo $id; ?>" />
+											<input type="hidden" name="adden" value="<?php echo $addendum; ?>" />
+											<div>
+												<label for="form-field-select-3">Sub Bidang</label>
+												<br />
+												<input type="text" id="form-field-1" name="bidang" value="<?php echo $bidang['nmbidang']; ?>" class="form-control" readonly />
+											</div>
+											<div>
+												<label for="form-field-select-3">Nama Paket</label>
+												<br />
+												<input type="text" id="form-field-1" name="nama" placeholder="Nama Paket" class="form-control" value="<?php echo $h['nmpaket']; ?>" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Pagu</label>
+												<br />
+												<input type="text" id="uang" data-thousands="." data-decimal="," data-prefix="Rp. " name="pagu" placeholder="Rp." class="form-control" value="Rp. <?php echo number_format($h['pagu'],0,',','.'); ?>" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Nomor Kontrak</label>
+												<br />
+												<input type="text" id="form-field-1" name="kontrak" placeholder="Nomor Kontrak" class="form-control" value="<?php echo $h['nokontrak']; ?>" />
 											</div>
 											<div>
 												<label for="form-field-select-3">Nama Rekanan</label>
@@ -264,10 +367,10 @@ if(isset($_GET['del'])){
 												<select name="rekanan" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Rekanan ...">
 													<option value="">  </option>
 													<?php
-													$q=mysql_query("select * from ref_rekanan");
-													while($h=mysql_fetch_array($q)){
+													$qq=mysql_query("select * from ref_rekanan");
+													while($hh=mysql_fetch_array($qq)){
 													?>
-													<option value="<?php echo $h['idrekanan']; ?>"><?php echo $h['nama']; ?></option>
+													<option value="<?php echo $hh['idrekanan']; ?>" <?php echo ($h['idrekanan']==$hh['idrekanan'])?'selected':''; ?> ><?php echo $hh['nama']; ?></option>
 													<?php
 													}
 													?>
@@ -276,32 +379,32 @@ if(isset($_GET['del'])){
 											<div>
 												<label for="form-field-select-3">Tanda Tangan Kontrak</label>
 												<br />
-												<input class="form-control date-picker" name="ttd" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
+												<input class="form-control date-picker" value="<?php echo date('d-m-Y',strtotime($h['ttdkontrak'])); ?>" name="ttd" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
 											</div>
 											<div>
 												<label for="form-field-select-3">SPMK</label>
 												<br />
-												<input class="form-control date-picker" name="spmk" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
+												<input class="form-control date-picker" value="<?php echo date('d-m-Y',strtotime($h['spmk'])); ?>" name="spmk" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
 											</div>
 											<div>
 												<label for="form-field-select-3">Masa Pelaksanaan</label>
 												<br />
-												<input type="text" id="hari1" data-thousands="." name="pelaksanaan" class="form-control" />
+												<input type="text" id="hari1" data-thousands="." value="<?php echo $h['pelaksanaan']; ?> Hari Kalender" name="pelaksanaan" class="form-control" />
 											</div>
 											<div>
 												<label for="form-field-select-3">Masa Pemeliharaan</label>
 												<br />
-												<input type="text" id="hari2" data-thousands="." name="pemeliharaan" class="form-control" />
+												<input type="text" id="hari2" data-thousands="." value="<?php echo $h['pemeliharaan']; ?> Hari Kalender" name="pemeliharaan" class="form-control" />
 											</div>
 
 											<div class="form-actions center">
-												<button class="btn btn-info" name="add" type="submit">
+												<button class="btn btn-info" name="addendum" type="submit">
 													<i class="ace-icon fa fa-check bigger-110"></i>
 													Submit
 												</button>
 
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-rekanan'">
+												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-paket&daftar'">
 													<i class="ace-icon fa fa-close bigger-110"></i>
 													Cancel
 												</button>
@@ -603,18 +706,18 @@ if(isset($_GET['del'])){
 													Time Schedule
 												</button>
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-success" type="button" onclick="location.href='?page=ref-rekanan'">
+												<button class="btn btn-success" type="button" onclick="location.href='?page=ref-paket&paket=<?php echo $nama; ?>&aksi=edit&data'">
 													<i class="ace-icon fa fa-pencil bigger-110"></i>
 													Edit
 												</button>
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-warning" type="button" onclick="location.href='?page=ref-rekanan'">
+												<button class="btn btn-warning" type="button" onclick="location.href='?page=ref-paket&paket=<?php echo $nama; ?>&aksi=addendum&data'">
 													<i class="ace-icon fa fa-paste bigger-110"></i>
 													Addendum
 												</button>
 
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-rekanan'">
+												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-paket&paket=<?php echo $nama; ?>&del'">
 													<i class="ace-icon fa fa-close bigger-110"></i>
 													Delete
 												</button>

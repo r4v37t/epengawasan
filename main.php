@@ -25,6 +25,8 @@ if(isset($_GET['logout'])){
 		<!-- page specific plugin styles -->
 		<link rel="stylesheet" href="assets/css/jquery-ui.custom.min.css" />
 		<link rel="stylesheet" href="assets/css/chosen.min.css" />
+		<link rel="stylesheet" href="assets/css/colorbox.min.css" />
+		<link rel="stylesheet" href="flowplayer/skin/skin.css">
 
 		<!-- text fonts -->
 		<link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
@@ -53,6 +55,14 @@ if(isset($_GET['logout'])){
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<style>
+		.gmap_inner {
+			width:100%;
+			position:relative;
+			height:495px;
+			z-index:5;
+		}
+		</style>
 	</head>
 
 	<body class="no-skin">
@@ -176,14 +186,66 @@ if(isset($_GET['logout'])){
 		<script src="assets/js/jquery.maskMoney.min.js"></script>
 		
 		<script src="assets/js/bootstrap-datepicker.min.js"></script>
+		
+		<script src="assets/js/jquery.colorbox.min.js"></script>
+		
+		<script type="text/javascript" src="flowplayer/flowplayer.min.js"></script>
 
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
 		<script src="assets/js/ace.min.js"></script>
+		
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBM9qusXql3CVFPwpG4inuXdJ38pu43YFk"></script>
+		<script type="text/javascript" src="assets/js/jquery.gmap.js"></script>
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			jQuery(function($) {
+				initGoogleMap();
+				function initGoogleMap() {
+					jQuery(window).load(function(){
+						//set google map with marker
+						jQuery("#googlemap1").gMap({
+							markers: [{
+								latitude : -3.013964, longitude : 114.385891 }],
+							zoom: 16,
+							maptype : "ROADMAP"
+						});
+					});
+				}
+				
+				var $overflow = '';
+				var colorbox_params = {
+					rel: 'colorbox',
+					reposition:true,
+					scalePhotos:true,
+					scrolling:false,
+					previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+					next:'<i class="ace-icon fa fa-arrow-right"></i>',
+					close:'&times;',
+					current:'{current} of {total}',
+					maxWidth:'100%',
+					maxHeight:'100%',
+					onOpen:function(){
+						$overflow = document.body.style.overflow;
+						document.body.style.overflow = 'hidden';
+					},
+					onClosed:function(){
+						document.body.style.overflow = $overflow;
+					},
+					onComplete:function(){
+						$.colorbox.resize();
+					}
+				};
+
+				$('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+				$("#cboxLoadingGraphic").html("<i class='ace-icon fa fa-spinner orange fa-spin'></i>");//let's add a custom loading icon
+				
+				
+				$(document).one('ajaxloadstart.page', function(e) {
+					$('#colorbox, #cboxOverlay').remove();
+				});
+				
 				/*----------- BEGIN CHART CODE -------------------------*/
 				function showTooltip(x, y, contents) {
 					$('<div id="tooltip">' + contents + '</div>').css({
@@ -266,27 +328,38 @@ if(isset($_GET['logout'])){
 					}
 				});
 				<?php }} ?>
-				var rencana = [[0,0]],
-					realisasi = [[0,0]],
-					max=20,
-					min=0;
-				for (var i = 2; i < 20; i += 2) {
-					rencana.push([i, i]);
-					min=i+2;
-					realisasi.push([i, Math.floor(Math.random()*(max-min+1))+min]);
+				
+				<?php if(isset($_GET['page'])&&isset($_GET['paket'])&&isset($_GET['data'])){ ?>
+				var tsreal=[[0,0]],
+					tsrenc=[[0,0]],
+					bulan=[[0,'Bulan']];
+				<?php
+				$y=0;
+				$x=0;
+				$awal1=date('Y-m',strtotime($h['ttdkontrak']));
+				$awal1=strtotime($awal1);
+				while($awal1 <= $akhir1){
+				?>
+				tsreal.push([<?php echo $x+1; ?>,<?php echo $realisasi[$y]; ?>]);
+				tsrenc.push([<?php echo $x+1; ?>,<?php echo $rencana[$y]; ?>]);
+				bulan.push([<?php echo $x+1; ?>,'<?php echo bulanindo(date('n',$awal1)); ?>']);
+				<?php
+					$x++;
+					$y++;
+					$awal1 = strtotime("+1 months", $awal1);
 				}
-
-				var plot = $.plot($("#trigo"), [{
-					data: rencana,
-					label: "Rencana",
+				?>
+				var plot = $.plot($("#tsreal"), [{
+					data: tsreal,
+					label: "Realisasi",
 					points: {
 						fillColor: "#4572A7",
 						size: 5
 					},
 					color: '#4572A7'
-				}, {
-					data: realisasi,
-					label: "Realisasi",
+				},{
+					data: tsrenc,
+					label: "Rencana",
 					points: {
 						fillColor: "#333",
 						size: 35
@@ -304,11 +377,15 @@ if(isset($_GET['logout'])){
 					grid: {
 						hoverable: true,
 						clickable: true
+					},
+					xaxis:{
+						ticks: bulan
+					},
+					yaxis:{
+						max:100
 					}
 				});
-
-				
-				$("#trigo").bind("plothover", function (event, pos, item) {
+				$("#tsreal").bind("plothover", function (event, pos, item) {
 					$("#x").text(pos.x.toFixed(2));
 					$("#y").text(pos.y.toFixed(2));
 
@@ -320,14 +397,28 @@ if(isset($_GET['logout'])){
 							var x = item.datapoint[0].toFixed(2),
 								y = item.datapoint[1].toFixed(2);
 
-							showTooltip(item.pageX, item.pageY, item.series.label + " of " + x + " = " + y);
+							showTooltip(item.pageX, item.pageY, item.series.label + " = " + y + " %");
 						}
 					} else {
 						$("#tooltip").remove();
 						previousPoint = null;
 					}
 				});
+				<?php } ?>
 				/*----------- END CHART CODE -------------------------*/
+				
+				$('#id-input-file-1 , #id-input-file-2').ace_file_input({
+					no_file:'No File ...',
+					btn_choose:'Choose',
+					btn_change:'Change',
+					droppable:false,
+					onchange:null,
+					thumbnail:false //| true | large
+					// whitelist:'bmp|png|jpg|jpeg'
+					//blacklist:'exe|php'
+					//onchange:''
+					//
+				});
 				
 				$('.date-picker').datepicker({
 					autoclose: true,
