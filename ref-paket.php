@@ -327,11 +327,18 @@ if(isset($_GET['del'])){
 							$awal=strtotime($h['ttdkontrak']);
 							$akhir=strtotime("+".($h['pelaksanaan']-1)." days", $awal);
 							
+							$awal1=date('Y-m',strtotime($h['ttdkontrak']));
+							$akhir1=date('Y-m',$akhir);
+							$awal1=strtotime($awal1);
+							$akhir1=strtotime($akhir1);
+							
 							$thawal=date('Y',$awal);
 							$thakhir=date('Y',$akhir);
 							$blnawal=date('m',$awal);
 							$blnakhir=date('m',$akhir);
 							$bulan=(($thakhir-$thawal)*12)+($blnakhir-$blnawal);
+							
+							
 				?>
 				<div class="row">
 					<div class="space-6"></div>
@@ -387,16 +394,16 @@ if(isset($_GET['del'])){
 											
 											<?php
 											$y=0;
-											for($x=($blnawal-1);$x<$blnakhir;$x++){
-												$n=$x+1;
+											while($awal1 <= $akhir1){
 											?>
 											<div class="col-sm-2">
-												<label for="form-field-select-3"><?php echo bulanindo($n); ?></label>
+												<label for="form-field-select-3"><?php echo bulanindo(date('n',$awal1)); ?></label>
 												<br />
 												<input type="text" value="<?php echo $rencana[$y]; ?>" name="tsrenc[]" class="form-control" />
 											</div>
 											<?php
 												$y++;
+												$awal1 = strtotime("+1 months", $awal1);
 											}
 											?>
 											

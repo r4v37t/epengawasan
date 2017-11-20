@@ -204,12 +204,18 @@ if(isset($_GET['logout'])){
 				var tsrenc=[[0,0]],
 					bulan=[[0,'Bulan']];
 				<?php
-				for($x=0;$x<=$bulan;$x++){
-					$n=$bulan+$x;
+				$y=0;
+				$x=0;
+				$awal1=date('Y-m',strtotime($h['ttdkontrak']));
+				$awal1=strtotime($awal1);
+				while($awal1 <= $akhir1){
 				?>
-				tsrenc.push([<?php echo $x+1; ?>,<?php echo $rencana[$x]; ?>]);
-				bulan.push([<?php echo $x+1; ?>,'<?php echo bulanindo($n); ?>']);
+				tsrenc.push([<?php echo $x+1; ?>,<?php echo $rencana[$y]; ?>]);
+				bulan.push([<?php echo $x+1; ?>,'<?php echo bulanindo(date('n',$awal1)); ?>']);
 				<?php
+					$x++;
+					$y++;
+					$awal1 = strtotime("+1 months", $awal1);
 				}
 				?>
 				var plot = $.plot($("#tsrenc"), [{
