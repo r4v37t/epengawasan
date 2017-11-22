@@ -20,7 +20,7 @@ if(isset($_POST['edit'])){
 	$username=$_POST['username'];
 	$password=md5($_POST['password']);
 	$akses=$_POST['akses'];
-	$q=mysql_query("update user set nama='$nama',idbidang=$idbidang,password='$password',akses='$akses' where username='$username'");
+	$q=mysql_query("update user set nama='$nama',password='$password' where username='$username'");
 	if($q){
 		?><script>alert("Sukses!");</script><?php
 	}else{
@@ -72,7 +72,66 @@ if(isset($_GET['del'])){
 
 								<div class="widget-body">
 									<div class="widget-main">
+									<?php
+									if(!isset($_GET['next'])){
+									?>
+										<form method="get">
+											<input type="hidden" name="page" value="pengguna" />
+											<div>
+												<label for="form-field-select-3">Nama Pengguna</label>
+												<br />
+												<input type="text" id="form-field-1" name="nama" value="<?php echo (isset($_GET['nama']))?$_GET['nama']:''; ?>" placeholder="Nama Pengguna" class="form-control" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Username</label>
+												<br />
+												<input type="text" id="form-field-1" name="username" value="<?php echo (isset($_GET['username']))?$_GET['username']:''; ?>" placeholder="Username" class="form-control" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Hak Akses</label>
+												<br />
+												<select name="akses" class="chosen-select form-control" onchange="this.form.submit()" id="form-field-select-3" data-placeholder="Pilih Akses ...">
+													<option value="">  </option>
+													<option value="kpa">KPA</option>
+													<option value="pptk">PPTK</option>
+													<option value="pengawas">Pengawas</option>
+													<option value="rekanan">Rekanan</option>
+													<option value="admin">Administrator</option>
+												</select>
+											</div>
+											<input type="hidden" name="add" />
+											<input type="hidden" name="next" />
+										</form>
+									<?php
+									}else{
+										$nama=$_GET['nama'];
+										$username=$_GET['username'];
+										$akses=$_GET['akses'];
+									?>
 										<form method="post">
+											<div>
+												<label for="form-field-select-3">Nama Pengguna</label>
+												<br />
+												<input type="text" id="form-field-1" name="nama" value="<?php echo $nama; ?>" readonly class="form-control" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Username</label>
+												<br />
+												<input type="text" id="form-field-1" name="username" value="<?php echo $username; ?>" readonly class="form-control" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Hak Akses</label>
+												<br />
+												<input type="text" id="form-field-1" name="akses" value="<?php echo $akses; ?>" readonly class="form-control" />
+											</div>
+											<div>
+												<label for="form-field-select-3">Password</label>
+												<br />
+												<input type="password" id="form-field-1" name="password" placeholder="Password" class="form-control" />
+											</div>
+											<?php
+											if($akses=='kpa'||$akses=='admin'){
+											?>
 											<div>
 												<label for="form-field-select-3">Sub Bidang</label>
 												<br />
@@ -96,33 +155,53 @@ if(isset($_GET['del'])){
 													?>
 												</select>
 											</div>
+											<?php
+											}else if($akses=='pptk'||$akses=='pengawas'){
+											?>
 											<div>
-												<label for="form-field-select-3">Nama Pengguna</label>
+												<label for="form-field-select-3">Data Pekerjaan</label>
 												<br />
-												<input type="text" id="form-field-1" name="nama" placeholder="Nama Pengguna" class="form-control" />
-											</div>
-											<div>
-												<label for="form-field-select-3">Username</label>
-												<br />
-												<input type="text" id="form-field-1" name="username" placeholder="Username" class="form-control" />
-											</div>
-											<div>
-												<label for="form-field-select-3">Password</label>
-												<br />
-												<input type="password" id="form-field-1" name="password" placeholder="Password" class="form-control" />
-											</div>
-											<div>
-												<label for="form-field-select-3">Hak Akses</label>
-												<br />
-												<select name="akses" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Akses ...">
-													<option value="">  </option>
-													<option value="kpa">KPA</option>
-													<option value="pptk">PPTK</option>
-													<option value="pengawas">Pengawas</option>
-													<option value="rekanan">Rekanan</option>
-													<option value="admin">Administrator</option>
+												<select name="bidang" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Data Pekerjaan ...">
+													<?php
+													if($_SESSION['bidang']==0){
+														?><option value="">  </option><?php
+														$q=mysql_query("select * from dt_kontrak");
+														while($h=mysql_fetch_array($q)){
+													?>
+													<option value="<?php echo $h['idkontrak']; ?>"><?php echo $h['nmpaket']; ?></option>
+													<?php
+														}
+													}else{
+														$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+														$h=mysql_fetch_array($q);
+														?>
+														<option value="<?php echo $h['idkontrak']; ?>"><?php echo $h['nmpaket']; ?></option>
+														<?php
+													}
+													?>
 												</select>
 											</div>
+											<?php
+											}else if($akses=='rekanan'){
+											?>
+											<div>
+												<label for="form-field-select-3">Data Rekanan</label>
+												<br />
+												<select name="bidang" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Data Rekanan ...">
+													<option value="">  </option>
+													<?php
+														$q=mysql_query("select * from ref_rekanan");
+														while($h=mysql_fetch_array($q)){
+													?>
+													<option value="<?php echo $h['idrekanan']; ?>"><?php echo $h['nama']; ?></option>
+													<?php
+														}
+													?>
+												</select>
+											</div>
+											<?php
+											}
+											?>
 
 											<div class="form-actions center">
 												<button class="btn btn-info" name="add" type="submit">
@@ -131,12 +210,20 @@ if(isset($_GET['del'])){
 												</button>
 
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-rekanan'">
+												<button class="btn btn-warning" type="button" onclick="location.href='?page=pengguna&nama=<?php echo $nama; ?>&username=<?php echo $username; ?>&add'">
+													<i class="ace-icon fa fa-undo bigger-110"></i>
+													Back
+												</button>
+												&nbsp; &nbsp; &nbsp;
+												<button class="btn btn-danger" type="button" onclick="location.href='?page=pengguna'">
 													<i class="ace-icon fa fa-close bigger-110"></i>
 													Cancel
 												</button>
 											</div>
 										</form>
+									<?php
+									}
+									?>
 										<hr />
 									</div>
 								</div>
@@ -167,29 +254,7 @@ if(isset($_GET['del'])){
 									<div class="widget-main">
 										<form method="post">
 											<input type="hidden" name="id" value="<?php echo $id; ?>" />
-											<div>
-												<label for="form-field-select-3">Sub Bidang</label>
-												<br />
-												<select name="bidang" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Sub Bidang ...">
-													<?php
-													if($_SESSION['bidang']==0){
-														?><option value="">  </option><?php
-														$qq=mysql_query("select * from ref_bidang");
-														while($hh=mysql_fetch_array($qq)){
-														?>
-														<option value="<?php echo $hh['idbidang']; ?>" <?php echo ($h['idbidang']==$hh['idbidang'])?"selected":""; ?> ><?php echo $hh['nmbidang']; ?></option>
-													<?php
-														}
-													}else{
-														$qq=mysql_query("select * from ref_bidang where idbidang=$_SESSION[bidang]");
-														$hh=mysql_fetch_array($qq);
-														?>
-														<option value="<?php echo $hh['idbidang']; ?>"><?php echo $hh['nmbidang']; ?></option>
-														<?php
-													}
-													?>
-												</select>
-											</div>
+											
 											<div>
 												<label for="form-field-select-3">Nama Pengguna</label>
 												<br />
@@ -208,15 +273,41 @@ if(isset($_GET['del'])){
 											<div>
 												<label for="form-field-select-3">Hak Akses</label>
 												<br />
-												<select name="akses" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Pilih Akses ...">
-													<option value="">  </option>
-													<option value="kpa" <?php echo ($h['akses']=="kpa")?"selected":""; ?> >KPA</option>
-													<option value="pptk" <?php echo ($h['akses']=="pptk")?"selected":""; ?> >PPTK</option>
-													<option value="pengawas" <?php echo ($h['akses']=="pengawas")?"selected":""; ?> >Pengawas</option>
-													<option value="rekanan" <?php echo ($h['akses']=="rekanan")?"selected":""; ?> >Rekanan</option>
-													<option value="admin" <?php echo ($h['akses']=="admin")?"selected":""; ?> >Administrator</option>
-												</select>
+												<input type="text" value="<?php echo $h['akses']; ?>" id="form-field-1" name="akses" class="form-control" readonly />
 											</div>
+											<?php
+											if($h['akses']=='kpa'||$h['akses']=='admin'){
+												$qq=mysql_query("select * from ref_bidang where idbidang=$h[idbidang]");
+												$hh=mysql_fetch_array($qq);
+											?>
+											<div>
+												<label for="form-field-select-3">Sub Bidang</label>
+												<br />
+												<input type="text" value="<?php echo $hh['nmbidang']; ?>" id="form-field-1" name="akses" class="form-control" readonly />
+											</div>
+											<?php
+											}else if($h['akses']=='pptk'||$h['akses']=='pengawas'){
+												$qq=mysql_query("select * from dt_kontrak where idkontrak=$h[idbidang]");
+												$hh=mysql_fetch_array($qq);
+											?>
+											<div>
+												<label for="form-field-select-3">Data Pekerjaan</label>
+												<br />
+												<input type="text" value="<?php echo $hh['nmpaket']; ?>" id="form-field-1" name="akses" class="form-control" readonly />
+											</div>
+											<?php
+											}else if($h['akses']=='rekanan'){
+												$qq=mysql_query("select * from ref_rekanan where idrekanan=$h[idbidang]");
+												$hh=mysql_fetch_array($qq);
+											?>
+											<div>
+												<label for="form-field-select-3">Data Rekanan</label>
+												<br />
+												<input type="text" value="<?php echo $hh['nama']; ?>" id="form-field-1" name="akses" class="form-control" readonly />
+											</div>
+											<?php
+											}
+											?>
 
 											<div class="form-actions center">
 												<button class="btn btn-info" name="edit" type="submit">
@@ -225,7 +316,7 @@ if(isset($_GET['del'])){
 												</button>
 
 												&nbsp; &nbsp; &nbsp;
-												<button class="btn btn-danger" type="button" onclick="location.href='?page=ref-rekanan'">
+												<button class="btn btn-danger" type="button" onclick="location.href='?page=pengguna'">
 													<i class="ace-icon fa fa-close bigger-110"></i>
 													Cancel
 												</button>
@@ -252,7 +343,7 @@ if(isset($_GET['del'])){
 							<thead>
 								<tr>
 									<th>Nama Pengguna</th>
-									<th>Sub Bidang</th>
+									<th>Detail</th>
 									<th>Username</th>
 									<th>Akses</th>
 									<th>Aksi</th>
@@ -267,12 +358,24 @@ if(isset($_GET['del'])){
 									$q=mysql_query("select * from user where idbidang=$_SESSION[bidang] and username<>'$_SESSION[id]'");
 								}
 								while($h=mysql_fetch_array($q)){
-									$qq=mysql_query("select * from ref_bidang where idbidang=$h[idbidang]");
-									$hh=mysql_fetch_array($qq);
+									if($h['akses']=='kpa'||$h['akses']=='admin'){
+										$qq=mysql_query("select * from ref_bidang where idbidang=$h[idbidang]");
+										$hh=mysql_fetch_array($qq);
+										$nama='Sub Bidang '.$hh['nmbidang'];
+									}else if($h['akses']=='pptk'||$h['akses']=='pengawas'){
+										$qq=mysql_query("select * from dt_kontrak where idkontrak=$h[idbidang]");
+										$hh=mysql_fetch_array($qq);
+										$nama='Pekerjaan '.$hh['nmpaket'];
+									}else if($h['akses']=='rekanan'){
+										$qq=mysql_query("select * from ref_rekanan where idrekanan=$h[idbidang]");
+										$hh=mysql_fetch_array($qq);
+										$nama=$hh['nama'];
+									}
+									
 								?>
 								<tr>
 									<td><?php echo $h['nama']; ?></td>
-									<td><?php echo $hh['nmbidang']; ?></td>
+									<td><?php echo $nama; ?></td>
 									<td><?php echo $h['username']; ?></td>
 									<td><strong><?php echo strtoupper($h['akses']); ?></strong></td>
 									<td>

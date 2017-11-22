@@ -231,6 +231,7 @@ if(isset($_GET['delvideo'])){
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
+						<?php if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){ ?>
 						<form method="get">
 							<input type="hidden" name="page" value="ref-paket" />
 							<div>
@@ -258,6 +259,7 @@ if(isset($_GET['delvideo'])){
 							</div>
 							<input type="hidden" name="daftar" value="" />
 						</form>
+						<?php } ?>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
@@ -275,10 +277,16 @@ if(isset($_GET['delvideo'])){
 
 							<tbody>
 								<?php
-								if($_SESSION['bidang']==0){
-									$q=mysql_query("select * from dt_kontrak");
-								}else{
-									$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+								if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){
+									if($_SESSION['bidang']==0){
+										$q=mysql_query("select * from dt_kontrak");
+									}else{
+										$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+									}
+								}else if($_SESSION['akses']=='pptk'||$_SESSION['akses']=='pengawas'){
+									$q=mysql_query("select * from dt_kontrak where idkontrak=$_SESSION[bidang]");
+								}else if($_SESSION['akses']=='rekanan'){
+									$q=mysql_query("select * from dt_kontrak where idrekanan=$_SESSION[bidang]");
 								}
 								while($h=mysql_fetch_array($q)){
 									$akhir=strtotime("+".($h['pelaksanaan']-1)." days", strtotime($h['ttdkontrak']));
@@ -455,6 +463,7 @@ if(isset($_GET['delvideo'])){
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
+						<?php if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){ ?>
 						<form method="get">
 							<input type="hidden" name="page" value="ref-paket" />
 							<div>
@@ -482,6 +491,7 @@ if(isset($_GET['delvideo'])){
 							</div>
 							<input type="hidden" name="daftar" value="" />
 						</form>
+						<?php } ?>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
@@ -499,10 +509,16 @@ if(isset($_GET['delvideo'])){
 
 							<tbody>
 								<?php
-								if($_SESSION['bidang']==0){
-									$q=mysql_query("select * from dt_kontrak");
-								}else{
-									$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+								if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){
+									if($_SESSION['bidang']==0){
+										$q=mysql_query("select * from dt_kontrak");
+									}else{
+										$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+									}
+								}else if($_SESSION['akses']=='pptk'||$_SESSION['akses']=='pengawas'){
+									$q=mysql_query("select * from dt_kontrak where idkontrak=$_SESSION[bidang]");
+								}else if($_SESSION['akses']=='rekanan'){
+									$q=mysql_query("select * from dt_kontrak where idrekanan=$_SESSION[bidang]");
 								}
 								while($h=mysql_fetch_array($q)){
 									$akhir=strtotime("+".($h['pelaksanaan']-1)." days", strtotime($h['ttdkontrak']));
@@ -672,6 +688,7 @@ if(isset($_GET['delvideo'])){
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
+						<?php if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){ ?>
 						<form method="get">
 							<input type="hidden" name="page" value="ref-paket" />
 							<div>
@@ -699,6 +716,7 @@ if(isset($_GET['delvideo'])){
 							</div>
 							<input type="hidden" name="daftar" value="" />
 						</form>
+						<?php } ?>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
@@ -716,10 +734,16 @@ if(isset($_GET['delvideo'])){
 
 							<tbody>
 								<?php
-								if($_SESSION['bidang']==0){
-									$q=mysql_query("select * from dt_kontrak");
-								}else{
-									$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+								if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){
+									if($_SESSION['bidang']==0){
+										$q=mysql_query("select * from dt_kontrak");
+									}else{
+										$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+									}
+								}else if($_SESSION['akses']=='pptk'||$_SESSION['akses']=='pengawas'){
+									$q=mysql_query("select * from dt_kontrak where idkontrak=$_SESSION[bidang]");
+								}else if($_SESSION['akses']=='rekanan'){
+									$q=mysql_query("select * from dt_kontrak where idrekanan=$_SESSION[bidang]");
 								}
 								while($h=mysql_fetch_array($q)){
 									$akhir=strtotime("+".($h['pelaksanaan']-1)." days", strtotime($h['ttdkontrak']));
@@ -876,6 +900,7 @@ if(isset($_GET['delvideo'])){
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
+						<?php if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){ ?>
 						<form method="get">
 							<input type="hidden" name="page" value="ref-paket" />
 							<div>
@@ -903,6 +928,7 @@ if(isset($_GET['delvideo'])){
 							</div>
 							<input type="hidden" name="daftar" value="" />
 						</form>
+						<?php } ?>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
@@ -920,10 +946,16 @@ if(isset($_GET['delvideo'])){
 
 							<tbody>
 								<?php
-								if($_SESSION['bidang']==0){
-									$q=mysql_query("select * from dt_kontrak");
-								}else{
-									$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+								if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){
+									if($_SESSION['bidang']==0){
+										$q=mysql_query("select * from dt_kontrak");
+									}else{
+										$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+									}
+								}else if($_SESSION['akses']=='pptk'||$_SESSION['akses']=='pengawas'){
+									$q=mysql_query("select * from dt_kontrak where idkontrak=$_SESSION[bidang]");
+								}else if($_SESSION['akses']=='rekanan'){
+									$q=mysql_query("select * from dt_kontrak where idrekanan=$_SESSION[bidang]");
 								}
 								while($h=mysql_fetch_array($q)){
 									$akhir=strtotime("+".($h['pelaksanaan']-1)." days", strtotime($h['ttdkontrak']));

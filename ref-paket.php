@@ -547,6 +547,7 @@ if(isset($_GET['del'])){
 								$bidang=$_SESSION['bidang'];
 							}
 						}
+						
 						if(isset($_GET['nama'])){
 							$nama=$_GET['nama'];
 						}else{
@@ -563,10 +564,12 @@ if(isset($_GET['del'])){
 					<div class="space-6"></div>
 					<div class="col-md-12">
 						<h3 class="header smaller lighter blue">Paket Pekerjaan</h3>
+						<?php if($_SESSION['akses']=='admin'){ ?>
 						<button class="btn btn-xs btn-success" onclick="location.href='?page=ref-paket&aksi=tambah&data'">
 							<i class="ace-icon fa fa-plus bigger-120"></i>
 							Tambah
 						</button>
+						<?php } ?>
 						<div class="clearfix">
 							<div class="pull-right tableTools-container"></div>
 						</div>
@@ -580,6 +583,7 @@ if(isset($_GET['del'])){
 									<div class="widget-main">
 										<form method="get">
 											<input type="hidden" name="page" value="ref-paket" />
+											<?php if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){ ?>
 											<div>
 												<label for="form-field-select-3">Sub Bidang</label>
 												<br />
@@ -618,6 +622,26 @@ if(isset($_GET['del'])){
 													?>
 												</select>
 											</div>
+											<?php }else if($_SESSION['akses']=='pptk'||$_SESSION['akses']=='pengawas'){ ?>
+											<div>
+												<label for="form-field-select-3">Sub Bidang</label>
+												<br />
+												<?php
+												$q=mysql_query("select * from ref_bidang where idbidang=(select idbidang from dt_kontrak where idkontrak=$_SESSION[bidang])");
+												$h=mysql_fetch_array($q);
+												?>
+												<input type="text" id="form-field-1" value="<?php echo $h['nmbidang']; ?>" class="form-control" readonly />
+											</div>
+											<div>
+												<label for="form-field-select-3">Nama Paket</label>
+												<br />
+												<?php
+												$q=mysql_query("select * from dt_kontrak where idkontrak=$_SESSION[bidang]");
+												$h=mysql_fetch_array($q);
+												?>
+												<input type="text" id="form-field-1" value="<?php echo $h['nmpaket']; ?>" class="form-control" readonly />
+											</div>
+											<?php } ?>
 											<input type="hidden" name="data" value="" />
 											<?php
 											if(!empty($nama)){
@@ -705,6 +729,7 @@ if(isset($_GET['del'])){
 													<i class="ace-icon fa fa-line-chart bigger-110"></i>
 													Time Schedule
 												</button>
+												<?php if($_SESSION['akses']=='admin'){ ?>
 												&nbsp; &nbsp; &nbsp;
 												<button class="btn btn-success" type="button" onclick="location.href='?page=ref-paket&paket=<?php echo $nama; ?>&aksi=edit&data'">
 													<i class="ace-icon fa fa-pencil bigger-110"></i>
@@ -721,6 +746,7 @@ if(isset($_GET['del'])){
 													<i class="ace-icon fa fa-close bigger-110"></i>
 													Delete
 												</button>
+												<?php } ?>
 											</div>
 											<?php
 											}
@@ -759,6 +785,7 @@ if(isset($_GET['del'])){
 						</div>
 						<form method="get">
 							<input type="hidden" name="page" value="ref-paket" />
+							<?php if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){ ?>
 							<div>
 								<label for="form-field-select-3">Sub Bidang</label>
 								<br />
@@ -779,9 +806,11 @@ if(isset($_GET['del'])){
 										<option value="<?php echo $h['idbidang']; ?>"><?php echo $h['nmbidang']; ?></option>
 										<?php
 									}
+									
 									?>
 								</select>
 							</div>
+							<?php } ?>
 							<input type="hidden" name="daftar" value="" />
 						</form>
 						<div class="clearfix">
@@ -801,10 +830,16 @@ if(isset($_GET['del'])){
 
 							<tbody>
 								<?php
-								if($_SESSION['bidang']==0){
-									$q=mysql_query("select * from dt_kontrak");
-								}else{
-									$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+								if($_SESSION['akses']=='admin'||$_SESSION['akses']=='kpa'){
+									if($_SESSION['bidang']==0){
+										$q=mysql_query("select * from dt_kontrak");
+									}else{
+										$q=mysql_query("select * from dt_kontrak where idbidang=$_SESSION[bidang]");
+									}
+								}else if($_SESSION['akses']=='pptk'||$_SESSION['akses']=='pengawas'){
+									$q=mysql_query("select * from dt_kontrak where idkontrak=$_SESSION[bidang]");
+								}else if($_SESSION['akses']=='rekanan'){
+									$q=mysql_query("select * from dt_kontrak where idrekanan=$_SESSION[bidang]");
 								}
 								while($h=mysql_fetch_array($q)){
 									$akhir=strtotime("+".($h['pelaksanaan']-1)." days", strtotime($h['ttdkontrak']));
